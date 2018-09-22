@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Websockets</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="UTF-8"> 
+  </head>
+  <body>
+    <script src="bundle.js"></script>
+    <div id="login-div">
+      <p>Enter a username: <input id="username" type="text" maxlength="41" placeholder="Your name">
+      <input id="login" type="button" name="login" value="Log in"></p>
+    </div>
+
+    <div id="game-div">
+      <button id="red-button">Red</button>
+      <button id="black-button">Black</button>
+      <button id="snack-button">Snackbar!</button>
+
+      <div id="players-go"></div>
+
+      <!-- The actual snackbar -->
+      <div id="snackbar">Some text some message..</div>
+      <div>
+        <p>Connected players</p>
+        <ul id="connected-players">
+          <li>Mick</li>
+        </ul>
+      </div>
+      <textarea id="logbox" rows="4" cols="50"></textarea>
+    </div>
+  </body>
+</html>
