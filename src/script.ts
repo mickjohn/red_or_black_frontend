@@ -1,6 +1,10 @@
 import * as $ from 'jquery';
+import { Guess, Login } from './message';
+import { MessageHandler } from './handler';
 
 var username_field = $("username");
+var current_hostname: string = window.location.hostname;
+var websocket_url: string = "ws://" + current_hostname + ":8000";
 
 function validate(username: string) : boolean {
   if ( username.length > 39 ) {
@@ -50,73 +54,29 @@ $(document).ready(function(){
 
 function startWebsocketConnection(username: string) {
   console.log("About to create websocket connection...");
-  var connection: WebSocket = new WebSocket("ws://127.0.0.1:8080", "protocolOne");
+  // var connection: WebSocket = new WebSocket(websocket_url, "protocolOne");
+  var connection: WebSocket = new WebSocket(websocket_url);
   var username: string = "";
 
   connection.onopen = function(event) {
     console.log("Connection opened, sending username to server...");
     username = $("#username").val().toString();
-    var request = { "Login": { "username": username}};
-    connection.send(JSON.stringify(request)); 
+    connection.send(JSON.stringify(new Login(username))); 
     $("#login-div").hide();
   };
 
   connection.onmessage = function(event) {
+    var handler: MessageHandler = new MessageHandler(username);
     var received_msg: any = JSON.parse(event.data);
-    switch(received_msg.msg_type) {
-      case "LoggedIn":
-        console.log("LoggedIn");
-        writeToLogBox("Logged in");
-        $("#game-div").show();
-        break;
-      case "Error":
-        console.log("Error: " + received_msg.error);
-        break;
-      case "Players":
-        $("#connected-players").empty();
-        console.log("Received Players message");
-        for (let player of received_msg.players) {
-          console.log("Appending player " + player.username);
-          $("#connected-players").append("<li>" + player.username + "</li>");
-        }
-        break;
-      case "Turn":
-        if ( received_msg.username === username ) {
-          console.log("It's this players go!");
-          writeToLogBox("It's YOUR go");
-          $("#players-go").html("It's <b>your</b> go!");
-        } else {
-          console.log("It's " + received_msg.username + "'s go");
-          writeToLogBox("It's " + received_msg.username + "'s go");
-          $("#players-go").html("It's <b>" + received_msg.username +"'s</b> go!");
-        }
-        break;
-      case "CorrectGuess":
-        // alert("Correct!!")
-        writeToLogBox("Correct guess for " + username + "!");
-        break;
-      case "WrongGuess":
-        // alert("Incorrect!!!");
-        writeToLogBox("Incorrect guess for " + username + ":-(");
-        break;
-      case "PlayerHasLeft":
-        writeToLogBox(received_msg.username + " has left the game");
-        break;
-      default:
-        console.log("Don't understand message...");
-        console.log(received_msg);
-        break;
-    }
+    handler.handle(received_msg);
   };
 
   $("#red-button").click(function(){
-    var request = { "Guess": { "card_colour": "Red" }};
-    connection.send(JSON.stringify(request)); 
+    connection.send(JSON.stringify(Guess.red())); 
   });
 
   $("#black-button").click(function(){
-    var request = { "Guess": { "card_colour": "Black" }};
-    connection.send(JSON.stringify(request)); 
+    connection.send(JSON.stringify(Guess.black())); 
   });
 }
 

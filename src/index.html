@@ -4,12 +4,13 @@
     <title>Websockets</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <meta charset="UTF-8"> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
   </head>
   <body>
     <script src="bundle.js"></script>
     <div id="login-div">
-      <p>Enter a username: <input id="username" type="text" maxlength="41" placeholder="Your name">
-      <input id="login" type="button" name="login" value="Log in"></p>
+      <p><input id="username" type="text" maxlength="40" placeholder="Enter a username"></p>
+      <p><input id="login" type="button" name="login" value="Log in"></p>
     </div>
 
     <div id="game-div">
@@ -18,6 +19,7 @@
       <button id="snack-button">Snackbar!</button>
 
       <div id="players-go"></div>
+      <div id="drinking-seconds">5</div>
 
       <!-- The actual snackbar -->
       <div id="snackbar">Some text some message..</div>
