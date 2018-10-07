@@ -95,7 +95,7 @@ export class MessageHandler {
       this.log("Incorrect guess for " + msg.username + ":-(, they must drink for " + msg.drinking_seconds + " seconds!!");
     }
     // Reset the drinking seconds.
-    this.drinking_seconds.html(5);
+    this.drinking_seconds.html("5");
   }
 
   playerLeft(msg: any) {
