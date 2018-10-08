@@ -58,16 +58,19 @@ function startWebsocketConnection(username: string) {
   // var connection: WebSocket = new WebSocket(websocket_url, "protocolOne");
   var connection: WebSocket = new WebSocket(websocket_url);
   var username: string = "";
+  var handler: MessageHandler = new MessageHandler(username, connection);
 
   connection.onopen = function(event) {
     console.log("Connection opened, sending username to server...");
     username = $("#username").val().toString();
+
+    //TODO messy... reassigning the handler after initialising it above :(
+    handler = new MessageHandler(username, connection);
     connection.send(JSON.stringify(new Login(username))); 
     $("#login-div").hide();
   };
 
   connection.onmessage = function(event) {
-    var handler: MessageHandler = new MessageHandler(username);
     var received_msg: any = JSON.parse(event.data);
     handler.handle(received_msg);
   };

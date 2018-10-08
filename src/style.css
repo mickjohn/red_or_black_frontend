@@ -63,6 +63,7 @@ hmtl,body {
 * {
   box-sizing: border-box;
 }
+
 .menu {
   float:left;
   width:20%;
@@ -101,6 +102,10 @@ hmtl,body {
   }
 }
 
+#your-go {
+  /* display: none; */
+}
+
 /* Show the snackbar when clicking on a button (class added with JavaScript) */
 #snackbar.show {
     visibility: visible; /* Show the snackbar */
@@ -135,12 +140,13 @@ hmtl,body {
 
 #outcome {
   text-align: center;
+  /* display: none; */
 }
 
 #you-guessed {
   /* animation-name: show-guess; */
   /* animation-duration: 1s; */
-  font-size: 20px;
+  font-size: 30px;
 }
 
 #the-card {
