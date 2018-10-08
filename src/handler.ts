@@ -17,7 +17,7 @@ export class MessageHandler {
     this.message_box = $("#logbox");
     this.red_button = $("#red-button");
     this.black_button = $("#black-button");
-    this.drinking_seconds = $("#drinking-seconds");
+    this.drinking_seconds = $("#penalty-seconds");
     this.game = $("#game-div");
     this.players_go = $("#players-go");
   }

@@ -6,6 +6,14 @@ hmtl,body {
   background-color: #d2d2d2;
 }
 
+.red-text {
+  color: #d22e2e;
+}
+
+.black-text {
+  color: black;
+}
+
 #login-div {
   margin: auto;
   width: 50%;
@@ -52,6 +60,47 @@ hmtl,body {
     bottom: 30px; /* 30px from the bottom */
 }
 
+* {
+  box-sizing: border-box;
+}
+.menu {
+  float:left;
+  width:20%;
+  text-align:center;
+}
+.menu a {
+  background-color:#e5e5e5;
+  padding:8px;
+  margin-top:7px;
+  display:block;
+  width:100%;
+  color:black;
+}
+.main {
+  float:left;
+  width:60%;
+  padding:0 20px;
+}
+.right {
+  background-color:#e5e5e5;
+  float:left;
+  width:20%;
+  padding:15px;
+  margin-top:7px;
+  text-align:left;
+}
+
+.right h2 {
+  text-align: center;
+}
+
+@media only screen and (max-width:620px) {
+  /* For mobile phones: */
+  .menu, .main, .right {
+    width:100%;
+  }
+}
+
 /* Show the snackbar when clicking on a button (class added with JavaScript) */
 #snackbar.show {
     visibility: visible; /* Show the snackbar */
@@ -81,3 +130,57 @@ hmtl,body {
     from {bottom: 30px; opacity: 1;}
     to {bottom: 0; opacity: 0;}
 } 
+
+/* Animations to show the guess */
+
+#outcome {
+  text-align: center;
+}
+
+#you-guessed {
+  /* animation-name: show-guess; */
+  /* animation-duration: 1s; */
+  font-size: 20px;
+}
+
+#the-card {
+  /* animation-name: show-guess; */
+  /* animation-duration: 1s; */
+  font-size: 32px;
+}
+
+#guess-result {
+  font-size: 30px;
+}
+
+@-webkit-keyframes show-guess {
+    0% { font-size: 0px; }
+    25% { font-size: 5px; }
+    50% { font-size: 10px; }
+    75% { font-size: 15px; }
+    100% { font-size: 20px; }
+}
+
+@keyframes show-guess {
+    0% { font-size: 0px; }
+    25% { font-size: 5px; }
+    50% { font-size: 10px; }
+    75% { font-size: 15px; }
+    100% { font-size: 20px; }
+}
+
+@-webkit-keyframes show-card {
+    0% { font-size: 0px; }
+    25% { font-size: 8px; }
+    50% { font-size: 16px; }
+    75% { font-size: 24px; }
+    100% { font-size: 32px; }
+}
+
+@keyframes show-card {
+    0% { font-size: 0px; }
+    25% { font-size: 8px; }
+    50% { font-size: 16px; }
+    75% { font-size: 24px; }
+    100% { font-size: 32px; }
+}

@@ -8,26 +8,79 @@
   </head>
   <body>
     <script src="bundle.js"></script>
-    <div id="login-div">
-      <p><input id="username" type="text" placeholder="username"></p>
-      <p><input id="login" type="button" name="login" value="LOG IN"></p>
-    </div>
+    <!-- <div id="login-div"> -->
+    <!--   <p><input id="username" type="text" placeholder="username"></p> -->
+    <!--   <p><input id="login" type="button" name="login" value="LOG IN"></p> -->
+    <!-- </div> -->
 
-    <div id="game-div">
-      <button id="red-button">Red</button>
-      <button id="black-button">Black</button>
-      <button id="snack-button">Snackbar!</button>
+    <!-- <div id="game-div"> -->
+    <!--   <h1> Red or Black </h1> -->
+    <!--   <button id="red-button">Red</button> -->
+    <!--   <button id="black-button">Black</button> -->
+    <!--   <button id="snack-button">Snackbar!</button> -->
 
-      <div id="players-go"></div>
-      <div id="drinking-seconds">5</div>
+    <!--   <div id="connected-players-model"></div> -->
 
-      <!-- The actual snackbar -->
-      <div id="snackbar">Some text some message..</div>
-      <div>
-        <p>Connected players</p>
-        <ul id="connected-players"></ul>
+    <!--   <div id="players-go"></div> -->
+    <!--   <div id="penalty-seconds">5</div> -->
+
+    <!-- The actual snackbar -->
+    <!-- <div id="snackbar">Some text some message..</div> -->
+    <!-- <div> -->
+    <!--   <p>Connected players</p> -->
+    <!--   <ul id="connected-players"></ul> -->
+    <!-- </div> -->
+    <!-- <textarea id="logbox" rows="4" cols="50"></textarea> -->
+    <!-- </div> -->
+
+    <div id="game-div-2">
+      <div style="background-color:#e5e5e5;padding:15px;text-align:center;">
+        <h1><span class="red-text">Red</span> or <span class="black-text">Black</span></h1>
       </div>
-      <textarea id="logbox" rows="4" cols="50"></textarea>
+
+      <div style="overflow:auto">
+        <div class="menu">
+          <!-- <a href="#">Link 1</a> -->
+          <!-- <a href="#">Link 2</a> -->
+          <!-- <a href="#">Link 3</a> -->
+          <!-- <a href="#">Link 4</a> -->
+          <div> Penalty: <b>5s</b></div>
+          <div>
+            <p> Current player: <b>Mickjohn</b></p>
+            <p> Next player: <b>krompy</b></p>
+            <p> Last 3 card: 9 K A </p>
+          </div>
+        </div>
+
+        <div class="main">
+
+          <div class="your-go">
+            <h2> It's your turn </h2>
+            <span><button>Red</button> or <button>Black</button>?</span>
+          </div>
+
+          <div id="outcome">
+            <div id="you-guessed"> You Guessed <span class="black-text">BLACK</span> </div>
+            <div id="the-card"> <span class="black-text">♣10</span> </div>
+            <div id="guess-result"> Correct 👏 </div>
+          </div>
+        </div>
+
+        <!-- This box can support up to thirty characters -->
+        <!-- any more and they wrap onto the next line -->
+        <div class="right">
+          <h2>Players</h2>
+          <ul id="players-list">
+            <li>Mick</li>
+            <li>krombobulous Michael</li>
+            <li>Underworld</li>
+            <li>twenty-charactersOOO</li>
+            <li>thirty-charactersOOO123456asdz</li>
+          </ul>
+        </div>
+      </div>
+
+      <div style="background-color:#e5e5e5;text-align:center;padding:10px;margin-top:7px;">© Michael Ashe</div>
     </div>
   </body>
 </html>
