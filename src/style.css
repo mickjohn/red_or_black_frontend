@@ -1,6 +1,39 @@
 
 hmtl,body {
-  background: url("spain_sunset_no_mountains.png") no-repeat center center fixed;
+  font-family: "Helvetica", "Arial", sans-serif;
+  /* background: url("spain_sunset_no_mountains.png") no-repeat center center fixed; */
+  color: #555;
+  background-color: #d2d2d2;
+}
+
+#login-div {
+  margin: auto;
+  width: 50%;
+  margin-top: 30%;
+  padding: 10px; 
+  background-color: #fff;
+  border: 1px solid #fff;
+  border-radius: 6px;
+}
+
+#login-div input {
+  width: 100%;
+  font-size: 16px;
+}
+
+#username {
+  width: 100%;
+  border: 1px solid #d2d2d2;
+  margin: 0;
+  padding: 0;
+  text-indent: 5px;
+}
+
+#login {
+  background-color: #e07575;
+  border: 1px solid #e07575;
+  border-radius: 5px;
+  font-size: 16px;
 }
 
  /* The snackbar - position it at the bottom and in the middle of the screen */

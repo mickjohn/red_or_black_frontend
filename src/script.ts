@@ -4,7 +4,8 @@ import { MessageHandler } from './handler';
 
 var username_field = $("username");
 var current_hostname: string = window.location.hostname;
-var websocket_url: string = "ws://" + current_hostname + ":8000";
+// var websocket_url: string = "ws://" + current_hostname + ":8000";
+var websocket_url: string = "ws://127.0.0.1:8000";
 
 function validate(username: string) : boolean {
   if ( username.length > 39 ) {
