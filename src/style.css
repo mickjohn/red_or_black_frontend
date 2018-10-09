@@ -14,10 +14,48 @@ hmtl,body {
   color: black;
 }
 
+.red-button {
+  font-size: 22px;
+  background-color: #d2d2d2; /* same as body */
+  color: #d22e2e;
+  border-color: #d22e2e;
+  border-style: solid;
+  border-radius: 4px;
+}
+
+.red-button:hover {
+  background-color: #d22e2e; /* same as red-text*/
+  color: white;
+}
+
+.red-button-clicked {
+  background-color: #d22e2e; /* same as red-text*/
+  color: white;
+}
+
+.black-button {
+  font-size: 22px;
+  background-color: #d2d2d2; /* same as body */
+  color: black;
+  border-color: black;
+  border-style: solid;
+  border-radius: 4px;
+}
+
+.black-button:hover {
+  background-color: black; /* same as red-text*/
+  color: white;
+}
+
+.black-button-clicked {
+  background-color: black; /* same as red-text*/
+  color: white;
+}
+
 #login-div {
   margin: auto;
   width: 50%;
-  margin-top: 30%;
+  margin-top: 10%;
   padding: 10px; 
   background-color: #fff;
   border: 1px solid #fff;
@@ -44,20 +82,20 @@ hmtl,body {
   font-size: 16px;
 }
 
- /* The snackbar - position it at the bottom and in the middle of the screen */
+/* The snackbar - position it at the bottom and in the middle of the screen */
 #snackbar {
-    visibility: hidden; /* Hidden by default. Visible on click */
-    min-width: 250px; /* Set a default minimum width */
-    margin-left: -125px; /* Divide value of min-width by 2 */
-    background-color: #333; /* Black background color */
-    color: #fff; /* White text color */
-    text-align: center; /* Centered text */
-    border-radius: 2px; /* Rounded borders */
-    padding: 16px; /* Padding */
-    position: fixed; /* Sit on top of the screen */
-    z-index: 1; /* Add a z-index if needed */
-    left: 50%; /* Center the snackbar */
-    bottom: 30px; /* 30px from the bottom */
+  visibility: hidden; /* Hidden by default. Visible on click */
+  min-width: 250px; /* Set a default minimum width */
+  margin-left: -125px; /* Divide value of min-width by 2 */
+  background-color: #333; /* Black background color */
+  color: #fff; /* White text color */
+  text-align: center; /* Centered text */
+  border-radius: 2px; /* Rounded borders */
+  padding: 16px; /* Padding */
+  position: fixed; /* Sit on top of the screen */
+  z-index: 1; /* Add a z-index if needed */
+  left: 50%; /* Center the snackbar */
+  bottom: 30px; /* 30px from the bottom */
 }
 
 * {
@@ -69,6 +107,17 @@ hmtl,body {
   width:20%;
   text-align:center;
 }
+
+.menu ul {
+  padding: 0;
+  margin: 5px;
+  font-size: 22px;
+}
+
+.menu h2 {
+  margin: 5px;
+}
+
 .menu a {
   background-color:#e5e5e5;
   padding:8px;
@@ -81,6 +130,7 @@ hmtl,body {
   float:left;
   width:60%;
   padding:0 20px;
+  text-align: center;
 }
 .right {
   background-color:#e5e5e5;
@@ -103,37 +153,38 @@ hmtl,body {
 }
 
 #your-go {
+  margin: auto;
   /* display: none; */
 }
 
 /* Show the snackbar when clicking on a button (class added with JavaScript) */
 #snackbar.show {
-    visibility: visible; /* Show the snackbar */
-    /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
-   However, delay the fade out process for 2.5 seconds */
-   -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
-   animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  visibility: visible; /* Show the snackbar */
+  /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+  However, delay the fade out process for 2.5 seconds */
+-webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
 
 /* Animations to fade the snackbar in and out */
 @-webkit-keyframes fadein {
-    from {bottom: 0; opacity: 0;}
-    to {bottom: 30px; opacity: 1;}
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
 }
 
 @keyframes fadein {
-    from {bottom: 0; opacity: 0;}
-    to {bottom: 30px; opacity: 1;}
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
 }
 
 @-webkit-keyframes fadeout {
-    from {bottom: 30px; opacity: 1;}
-    to {bottom: 0; opacity: 0;}
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
 }
 
 @keyframes fadeout {
-    from {bottom: 30px; opacity: 1;}
-    to {bottom: 0; opacity: 0;}
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
 } 
 
 /* Animations to show the guess */
@@ -160,33 +211,33 @@ hmtl,body {
 }
 
 @-webkit-keyframes show-guess {
-    0% { font-size: 0px; }
-    25% { font-size: 5px; }
-    50% { font-size: 10px; }
-    75% { font-size: 15px; }
-    100% { font-size: 20px; }
+  0% { font-size: 0px; }
+  25% { font-size: 5px; }
+  50% { font-size: 10px; }
+  75% { font-size: 15px; }
+  100% { font-size: 20px; }
 }
 
 @keyframes show-guess {
-    0% { font-size: 0px; }
-    25% { font-size: 5px; }
-    50% { font-size: 10px; }
-    75% { font-size: 15px; }
-    100% { font-size: 20px; }
+  0% { font-size: 0px; }
+  25% { font-size: 5px; }
+  50% { font-size: 10px; }
+  75% { font-size: 15px; }
+  100% { font-size: 20px; }
 }
 
 @-webkit-keyframes show-card {
-    0% { font-size: 0px; }
-    25% { font-size: 8px; }
-    50% { font-size: 16px; }
-    75% { font-size: 24px; }
-    100% { font-size: 32px; }
+  0% { font-size: 0px; }
+  25% { font-size: 8px; }
+  50% { font-size: 16px; }
+  75% { font-size: 24px; }
+  100% { font-size: 32px; }
 }
 
 @keyframes show-card {
-    0% { font-size: 0px; }
-    25% { font-size: 8px; }
-    50% { font-size: 16px; }
-    75% { font-size: 24px; }
-    100% { font-size: 32px; }
+  0% { font-size: 0px; }
+  25% { font-size: 8px; }
+  50% { font-size: 16px; }
+  75% { font-size: 24px; }
+  100% { font-size: 32px; }
 }

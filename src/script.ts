@@ -55,10 +55,9 @@ $(document).ready(function(){
 
 function startWebsocketConnection(username: string) {
   console.log("About to create websocket connection...");
-  // var connection: WebSocket = new WebSocket(websocket_url, "protocolOne");
   var connection: WebSocket = new WebSocket(websocket_url);
   var username: string = "";
-  var handler: MessageHandler = new MessageHandler(username, connection);
+  var handler: MessageHandler;
 
   connection.onopen = function(event) {
     console.log("Connection opened, sending username to server...");
@@ -75,13 +74,6 @@ function startWebsocketConnection(username: string) {
     handler.handle(received_msg);
   };
 
-  $("#red-button").click(function(){
-    connection.send(JSON.stringify(Guess.red())); 
-  });
-
-  $("#black-button").click(function(){
-    connection.send(JSON.stringify(Guess.black())); 
-  });
 }
 
 function writeToLogBox(msg: string) {

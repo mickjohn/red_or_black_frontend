@@ -27,7 +27,12 @@
           <div>
             <p> Current player: <b id="players-go">Mickjohn</b></p>
             <p> Next player: <b>TBI</b></p>
-            <p> Last 3 cards: TBI </p>
+            <h2> Last 3 cards (tbi) </h2>
+            <ul class="last-three-cards">
+              <li>Last <span class="black-text">A♠</span></li>
+              <li>Second Last <span class="red-text">Q♦</span></li>
+              <li>Third Last <span class="red-text">4♦</span></li>
+            </ul>
           </div>
         </div>
 
@@ -36,13 +41,10 @@
 
           <div id="your-go">
             <h2> It's your turn </h2>
-            <span><button id="red-button">Red</button> or <button id="black-button">Black</button>?</span>
+            <span><button id="red-button" class="red-button" >Red</button><button id="black-button" class="black-button">Black</button></span>
           </div>
 
           <div id="outcome">
-            <!-- <div id="you-guessed"> You Guessed <span class="black-text">BLACK</span> </div> -->
-            <!-- <div id="the-card"> <span class="black-text">♣10</span> </div> -->
-            <!-- <div id="guess-result"> Correct 👏 </div> -->
             <div id="you-guessed"></span> </div>
             <div id="the-card"></div>
             <div id="guess-result"></div>
@@ -51,6 +53,7 @@
 
         <!-- This box can support up to thirty characters -->
         <!-- any more and they wrap onto the next line -->
+        <!-- so best to keep usernames below that count -->
         <div class="right">
           <h2>Players</h2>
           <ul id="players-list">

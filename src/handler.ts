@@ -24,32 +24,32 @@ export class MessageHandler {
 
     // All of the various html elements that 
     // can be updated.
-    this.player_list = $("#players-list");
-    this.message_box = $("#logbox");
-    this.red_button = $("#red-button");
     this.black_button = $("#black-button");
     this.drinking_seconds = $("#penalty-seconds");
     this.game = $("#game-div");
-    this.players_go = $("#players-go");
-    this.your_go = $("#your-go");
-    this.outcome_box = $("#outcome");
-    this.you_guessed = $("#you-guessed");
-    this.the_card = $("#the-card");
     this.guess_result = $("#guess-result");
-
+    this.message_box = $("#logbox");
+    this.outcome_box = $("#outcome");
+    this.player_list = $("#players-list");
+    this.players_go = $("#players-go");
+    this.red_button = $("#red-button");
+    this.the_card = $("#the-card");
+    this.you_guessed = $("#you-guessed");
+    this.your_go = $("#your-go");
 
     // Setup red/black click handlers
     $("#red-button").click(function(){
-      $("#you-guessed").html("<span id='red'>Red</span>");
+      // Fade out the black button
+      $("#you-guessed").html("<span class='red-text'>Red</span>");
       connection.send(JSON.stringify(Guess.red())); 
+      $("#black-button").fadeOut( "slow", function() {});
     });
 
     $("#black-button").click(function(){
-      $("#you-guessed").html("<span id='black'>Black</span>");
+      $("#you-guessed").html("<span class='black-text'>Black</span>");
       connection.send(JSON.stringify(Guess.black())); 
     });
   }
-
 
   handle(msg: any) {
     switch(msg.msg_type) {
@@ -71,6 +71,9 @@ export class MessageHandler {
         break;
       case "PlayerHasLeft":
         this.playerLeft(msg);
+        break;
+      case "Penalty":
+        this.drinking_seconds.html(msg.penalty.toString());
         break;
       default:
         console.log("Don't understand message...");
@@ -109,39 +112,22 @@ export class MessageHandler {
     }
   }
 
-  // correct(msg: any) {
-  //   this.log("Correct guess for " + msg.username + "!");
-  //   this.log("Drinking seconds: " + msg.drinking_seconds);
-  //   this.drinking_seconds.html(msg.drinking_seconds);
-  // }
-
-  // wrong(msg: any) {
-  //   if ( msg.username === this.username ) {
-  //     this.log("YOU must drink for " + msg.drinking_seconds + " seconds");
-  //   } else {
-  //     this.log("Incorrect guess for " + msg.username + ":-(, they must drink for " + msg.drinking_seconds + " seconds!!");
-  //   }
-  //   // Reset the drinking seconds.
-  //   this.drinking_seconds.html("5");
-  // }
-
   handle_guess_result(msg: any) {
     let card_html: string = this.convertCardToHtml(msg.card);
-    let new_penalty: string = "5";
-    console.log("username = " + this.username);
-    console.log("r username = " + msg.username);
 
+    // Show the card
     this.the_card.html(card_html);
+
     if ( msg.username === this.username ) {
-      console.log("This is the user!!");
       if ( msg.correct ) {
-        this.guess_result.html("&#xe41f; Correct! &#xe41f;");
-        new_penalty = msg.penalty.toString();
+        this.guess_result.html("👏 Correct 👏");
       } else {
         this.guess_result.html("&#x1f62c; Wrong!! Drink for " + msg.penalty + " seconds")
       }
     }
-    this.drinking_seconds.html(new_penalty);
+
+    // Update the drinking seconds
+    this.drinking_seconds.html(msg.correct ? msg.penalty.toString() : "5");
   }
 
   playerLeft(msg: any) {
