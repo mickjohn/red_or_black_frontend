@@ -14,7 +14,6 @@ export class MessageHandler {
   players_go: JQuery<HTMLElement>;
   your_go: JQuery<HTMLElement>;
   outcome_box: JQuery<HTMLElement>;
-  you_guessed: JQuery<HTMLElement>;
   the_card: JQuery<HTMLElement>;
   guess_result: JQuery<HTMLElement>;
 
@@ -34,20 +33,21 @@ export class MessageHandler {
     this.players_go = $("#players-go");
     this.red_button = $("#red-button");
     this.the_card = $("#the-card");
-    this.you_guessed = $("#you-guessed");
     this.your_go = $("#your-go");
 
     // Setup red/black click handlers
     $("#red-button").click(function(){
-      // Fade out the black button
-      $("#you-guessed").html("<span class='red-text'>Red</span>");
-      connection.send(JSON.stringify(Guess.red())); 
-      $("#black-button").fadeOut( "slow", function() {});
+      $("#black-button").fadeOut( "slow", function() {
+        connection.send(JSON.stringify(Guess.red())); 
+      });
+      $(this).addClass("red-button-clicked");
     });
 
     $("#black-button").click(function(){
-      $("#you-guessed").html("<span class='black-text'>Black</span>");
-      connection.send(JSON.stringify(Guess.black())); 
+      $("#red-button").fadeOut( "slow", function() {
+        connection.send(JSON.stringify(Guess.black())); 
+      });
+      $(this).addClass("black-button-clicked");
     });
   }
 
@@ -67,7 +67,7 @@ export class MessageHandler {
         break;
       case "GuessResult":
         console.log(msg);
-        this.handle_guess_result(msg);
+        this.handleGuessResult(msg);
         break;
       case "PlayerHasLeft":
         this.playerLeft(msg);
@@ -83,6 +83,7 @@ export class MessageHandler {
   }
 
   loggedIn(msg: any) {
+    console.log("USERNAME = " + this.username);
     this.log("Logged in");
     this.game.show();
   }
@@ -99,12 +100,45 @@ export class MessageHandler {
     }
   }
 
+  // We don't want to show the guess buttons if the user is still being shown
+  // the outcome of their guess (which takes 3 seconds). Imagine this:
+  // PLAYER 1                                       | PLAYER 2
+  // 1) Player 1 guesses -> It's not player 2's go  |
+  // 2) The guess & answer is shown                 | Player to guesses It's no player 1's go
+  // 2.5) The answer buttons are shown, because it's Player 1's go again, but the buttons are about to be hidden the the next step
+  // 3) The answer & buttons are hidden             | ...
+  // 4) Now player 1 has no buttons :(
+  //
+  // So this needs to wait till the buttons have finished being hidden before showing them.
+  //
+  waitForButtonsToShow() {
+    if ( $("#outcome").is(':animated') || $("your-go").is(':animated')
+      || $("#outcome").is(':visible') || $("#your-go").is(':visible')) {
+      console.log("your-go or outcome is still animating/showing, waiting 500ms");
+
+      window.setTimeout( ()=> {
+        this.waitForButtonsToShow()
+      }, 500);
+
+      return;
+    }
+
+    console.log("Showing guess buttons");
+    $("#red-button").removeClass("red-button-clicked");
+    $("#black-button").removeClass("black-button-clicked");
+    $("#red-button").show();
+    $("#black-button").show();
+    $("#your-go").slideDown("slow", "swing");
+  }
+
   turn(msg: any) {
     console.log(msg);
     if ( msg.username === this.username ) {
       console.log("It's this players go!");
       this.log("It's YOUR go");
       this.players_go.html("It's <b>your</b> go!");
+
+      this.waitForButtonsToShow();
     } else {
       console.log("It's " + msg.username + "'s go");
       this.log("It's " + msg.username + "'s go");
@@ -112,7 +146,7 @@ export class MessageHandler {
     }
   }
 
-  handle_guess_result(msg: any) {
+  handleGuessResult(msg: any) {
     let card_html: string = this.convertCardToHtml(msg.card);
 
     // Show the card
@@ -128,6 +162,23 @@ export class MessageHandler {
 
     // Update the drinking seconds
     this.drinking_seconds.html(msg.correct ? msg.penalty.toString() : "5");
+
+    // Hide the outcome and the buttons
+    if ( msg.username == this.username ) {
+      this.outcome_box.slideDown("fast", "swing", function() {
+        window.setTimeout(function() {}, 2000, 'That was really slow!');
+        setTimeout(function(){ 
+          // Hide the outcome after 3 seconds
+          console.log("hiding outcome");
+          $("#outcome").slideUp("slow", "swing", function() {
+            // Hide the buttons after hiding the outcome
+            console.log("hiding guess boxes");
+            $("#your-go").slideUp("slow", "swing");
+          });
+        }, 3000);
+
+      });
+    }
   }
 
   playerLeft(msg: any) {
@@ -135,6 +186,7 @@ export class MessageHandler {
   }
 
   log(msg: string) {
+    console.log(msg);
     this.message_box.scrollTop(this.message_box[0].scrollHeight);
     this.message_box.val(this.message_box.val() + msg + "\n");
   }
