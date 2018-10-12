@@ -136,13 +136,13 @@ export class MessageHandler {
     if ( msg.username === this.username ) {
       console.log("It's this players go!");
       this.log("It's YOUR go");
-      this.players_go.html("It's <b>your</b> go!");
+      this.players_go.html("<b>your</b>!");
 
       this.waitForButtonsToShow();
     } else {
       console.log("It's " + msg.username + "'s go");
       this.log("It's " + msg.username + "'s go");
-      this.players_go.html("It's <b>" + msg.username +"'s</b> go!");
+      this.players_go.html(msg.username);
     }
   }
 
