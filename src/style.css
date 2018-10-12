@@ -6,6 +6,36 @@ hmtl,body {
   background-color: #d2d2d2;
 }
 
+#login-div {
+  margin: auto;
+  width: 50%;
+  margin-top: 10%;
+  padding: 10px; 
+  background-color: #fff;
+  border: 1px solid #fff;
+  border-radius: 6px;
+}
+
+#login-div input {
+  width: 100%;
+  font-size: 16px;
+}
+
+#username {
+  width: 100%;
+  border: 1px solid #d2d2d2;
+  margin: 0;
+  padding: 0;
+  text-indent: 5px;
+}
+
+#login {
+  background-color: #e07575;
+  border: 1px solid #e07575;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
 .red-text {
   color: #d22e2e;
 }
@@ -52,35 +82,6 @@ hmtl,body {
   color: white;
 }
 
-#login-div {
-  margin: auto;
-  width: 50%;
-  margin-top: 10%;
-  padding: 10px; 
-  background-color: #fff;
-  border: 1px solid #fff;
-  border-radius: 6px;
-}
-
-#login-div input {
-  width: 100%;
-  font-size: 16px;
-}
-
-#username {
-  width: 100%;
-  border: 1px solid #d2d2d2;
-  margin: 0;
-  padding: 0;
-  text-indent: 5px;
-}
-
-#login {
-  background-color: #e07575;
-  border: 1px solid #e07575;
-  border-radius: 5px;
-  font-size: 16px;
-}
 
 /* The snackbar - position it at the bottom and in the middle of the screen */
 #snackbar {
@@ -187,57 +188,6 @@ animation: fadein 0.5s, fadeout 0.5s 2.5s;
   to {bottom: 0; opacity: 0;}
 } 
 
-/* Animations to show the guess */
-
 #outcome {
   text-align: center;
-  /* display: none; */
-}
-
-#you-guessed {
-  /* animation-name: show-guess; */
-  /* animation-duration: 1s; */
-  font-size: 30px;
-}
-
-#the-card {
-  /* animation-name: show-guess; */
-  /* animation-duration: 1s; */
-  font-size: 32px;
-}
-
-#guess-result {
-  font-size: 30px;
-}
-
-@-webkit-keyframes show-guess {
-  0% { font-size: 0px; }
-  25% { font-size: 5px; }
-  50% { font-size: 10px; }
-  75% { font-size: 15px; }
-  100% { font-size: 20px; }
-}
-
-@keyframes show-guess {
-  0% { font-size: 0px; }
-  25% { font-size: 5px; }
-  50% { font-size: 10px; }
-  75% { font-size: 15px; }
-  100% { font-size: 20px; }
-}
-
-@-webkit-keyframes show-card {
-  0% { font-size: 0px; }
-  25% { font-size: 8px; }
-  50% { font-size: 16px; }
-  75% { font-size: 24px; }
-  100% { font-size: 32px; }
-}
-
-@keyframes show-card {
-  0% { font-size: 0px; }
-  25% { font-size: 8px; }
-  50% { font-size: 16px; }
-  75% { font-size: 24px; }
-  100% { font-size: 32px; }
 }
