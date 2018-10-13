@@ -23,13 +23,11 @@
       <div style="overflow:auto">
         <div class="menu">
           <div>
-            <!-- <p> Current player: <b id="players-go">Mickjohn</b></p> -->
-            <!-- <p> Next player: <b>TBI</b></p> -->
-            <h2> Last 3 cards (tbi) </h2>
-            <ul class="last-three-cards">
-              <li>Last <span class="black-text">A♠</span></li>
-              <li>Second Last <span class="red-text">Q♦</span></li>
-              <li>Third Last <span class="red-text">4♦</span></li>
+            <h3> Last 3 cards </h3>
+            <ul id="last-three-cards">
+              <li><span class="black-text">A♠</span></li>
+              <li><span class="red-text">Q♦</span></li>
+              <li><span class="red-text">4♦</span></li>
             </ul>
           </div>
           <div> <h2> Penalty <span id="penalty-seconds">5s</span> 🍺</h2></div>
@@ -43,7 +41,7 @@
           </div>
           <div id="your-go">
             <!-- <h2> It's your turn </h2> -->
-            <span><button id="red-button" class="red-button" >Red</button><button id="black-button" class="black-button">Black</button></span>
+            <span><button id="red-button" class="game-button red-button" >Red</button><button id="black-button" class="game-button black-button">Black</button></span>
           </div>
 
           <div id="outcome">

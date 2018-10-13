@@ -37,17 +37,19 @@ export class MessageHandler {
 
     // Setup red/black click handlers
     $("#red-button").click(function(){
+      $(this).removeClass("red-button");
+      $(this).addClass("red-button-clicked");
       $("#black-button").fadeOut( "slow", function() {
         connection.send(JSON.stringify(Guess.red())); 
       });
-      $(this).addClass("red-button-clicked");
     });
 
     $("#black-button").click(function(){
+      $(this).removeClass("black-button");
+      $(this).addClass("black-button-clicked");
       $("#red-button").fadeOut( "slow", function() {
         connection.send(JSON.stringify(Guess.black())); 
       });
-      $(this).addClass("black-button-clicked");
     });
   }
 
@@ -124,24 +126,31 @@ export class MessageHandler {
     }
 
     console.log("Showing guess buttons");
+    this.reset_buttons();
+    $("#your-go").slideDown("slow", "swing");
+    // Vibrate the device once the player can guess again
+    window.navigator.vibrate([100, 50, 100]);
+  }
+
+  reset_buttons() {
     $("#red-button").removeClass("red-button-clicked");
     $("#black-button").removeClass("black-button-clicked");
+    $("#red-button").addClass("red-button");
+    $("#black-button").addClass("black-button");
     $("#red-button").show();
     $("#black-button").show();
-    $("#your-go").slideDown("slow", "swing");
   }
 
   turn(msg: any) {
     console.log(msg);
     if ( msg.username === this.username ) {
       console.log("It's this players go!");
-      this.log("It's YOUR go");
+      // this.log("It's YOUR go");
       this.players_go.html("<b>your</b>!");
-
       this.waitForButtonsToShow();
     } else {
       console.log("It's " + msg.username + "'s go");
-      this.log("It's " + msg.username + "'s go");
+      // this.log("It's " + msg.username + "'s go");
       this.players_go.html(msg.username);
     }
   }

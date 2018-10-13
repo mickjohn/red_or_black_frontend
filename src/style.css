@@ -44,42 +44,38 @@ hmtl,body {
   color: black;
 }
 
-.red-button {
+.game-button {
   font-size: 22px;
-  background-color: #d2d2d2; /* same as body */
-  color: #d22e2e;
-  border-color: #d22e2e;
   border-style: solid;
   border-radius: 4px;
 }
 
-.red-button:hover {
-  background-color: #d22e2e; /* same as red-text*/
-  color: white;
+.red-button {
+  background-color: #d2d2d2; /* same as body */
+  color: #d22e2e;
+  border-color: #d22e2e;
 }
 
 .red-button-clicked {
   background-color: #d22e2e; /* same as red-text*/
   color: white;
+  border-color: #d22e2e;
 }
 
 .black-button {
-  font-size: 22px;
   background-color: #d2d2d2; /* same as body */
   color: black;
   border-color: black;
-  border-style: solid;
-  border-radius: 4px;
-}
-
-.black-button:hover {
-  background-color: black; /* same as red-text*/
-  color: white;
 }
 
 .black-button-clicked {
   background-color: black; /* same as red-text*/
   color: white;
+  border-color: black;
+}
+
+#last-three-cards li {
+  display: inline;
 }
 
 
