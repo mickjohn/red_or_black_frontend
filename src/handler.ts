@@ -1,5 +1,5 @@
 import * as $ from 'jquery';
-import { Guess, Login } from './message';
+import { Guess, Login, RequestHistory } from './message';
 
 export class MessageHandler {
   username: string;
@@ -86,7 +86,6 @@ export class MessageHandler {
 
   loggedIn(msg: any) {
     console.log("USERNAME = " + this.username);
-    this.log("Logged in");
     this.game.show();
   }
 
@@ -145,12 +144,10 @@ export class MessageHandler {
     console.log(msg);
     if ( msg.username === this.username ) {
       console.log("It's this players go!");
-      // this.log("It's YOUR go");
       this.players_go.html("<b>your</b>!");
       this.waitForButtonsToShow();
     } else {
       console.log("It's " + msg.username + "'s go");
-      // this.log("It's " + msg.username + "'s go");
       this.players_go.html(msg.username);
     }
   }
@@ -172,10 +169,17 @@ export class MessageHandler {
     // Update the drinking seconds
     this.drinking_seconds.html(msg.correct ? msg.penalty.toString() : "5");
 
-    // Hide the outcome and the buttons
+    // Show the outcome, and then hide it after 3 seconds
     if ( msg.username == this.username ) {
+
+      // Requeset the card to be broadcast to everyone.
+      // This is in it's own timeout function because I could not figure
+      // out how to use 'this' from inside the JQuery context...
+      window.setTimeout( () => {
+          this.connection.send(JSON.stringify(new RequestHistory));
+      }, 3000);
+
       this.outcome_box.slideDown("fast", "swing", function() {
-        window.setTimeout(function() {}, 2000, 'That was really slow!');
         setTimeout(function(){ 
           // Hide the outcome after 3 seconds
           console.log("hiding outcome");
@@ -190,9 +194,7 @@ export class MessageHandler {
     }
   }
 
-  playerLeft(msg: any) {
-    this.log(msg.username + " has left");
-  }
+  playerLeft(msg: any) {}
 
   log(msg: string) {
     console.log(msg);
