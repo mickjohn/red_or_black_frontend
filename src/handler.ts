@@ -16,6 +16,7 @@ export class MessageHandler {
   outcome_box: JQuery<HTMLElement>;
   the_card: JQuery<HTMLElement>;
   guess_result: JQuery<HTMLElement>;
+  last_cards: JQuery<HTMLElement>;
 
   constructor(username: string, connection: WebSocket) {
     this.username = username;
@@ -34,6 +35,7 @@ export class MessageHandler {
     this.red_button = $("#red-button");
     this.the_card = $("#the-card");
     this.your_go = $("#your-go");
+    this.last_cards = $("#last-three-cards");
 
     // Setup red/black click handlers
     $("#red-button").click(function(){
@@ -76,6 +78,9 @@ export class MessageHandler {
         break;
       case "Penalty":
         this.drinking_seconds.html(msg.penalty.toString());
+        break;
+      case "RequestHistory":
+        this.updateLastThreeCards(msg);
         break;
       default:
         console.log("Don't understand message...");
@@ -155,6 +160,9 @@ export class MessageHandler {
   handleGuessResult(msg: any) {
     let card_html: string = this.convertCardToHtml(msg.card);
 
+    // Push onto the last cards list
+    this.pushNewCard(msg.card);
+
     // Show the card
     this.the_card.html(card_html);
 
@@ -171,17 +179,8 @@ export class MessageHandler {
 
     // Show the outcome, and then hide it after 3 seconds
     if ( msg.username == this.username ) {
-
-      // Requeset the card to be broadcast to everyone.
-      // This is in it's own timeout function because I could not figure
-      // out how to use 'this' from inside the JQuery context...
-      window.setTimeout( () => {
-          this.connection.send(JSON.stringify(new RequestHistory));
-      }, 3000);
-
       this.outcome_box.slideDown("fast", "swing", function() {
         setTimeout(function(){ 
-          // Hide the outcome after 3 seconds
           console.log("hiding outcome");
           $("#outcome").slideUp("slow", "swing", function() {
             // Hide the buttons after hiding the outcome
@@ -194,15 +193,39 @@ export class MessageHandler {
     }
   }
 
+  // This might be a good place to use the snackbar?
   playerLeft(msg: any) {}
 
-  log(msg: string) {
-    console.log(msg);
-    this.message_box.scrollTop(this.message_box[0].scrollHeight);
-    this.message_box.val(this.message_box.val() + msg + "\n");
+  /*
+   * push last card onto the list of last cards
+   * fade out the oldest, and fade in the new one
+   */
+  pushNewCard(card: any) {
+    $("#new-card").hide();
+    $("#new-card").html(this.convertCardToHtml(card));
+
+    $("#third-last-card").fadeOut("slow", function() {
+      $("#new-card").fadeIn("slow", function() {
+        $("#third-last-card").html($("#second-last-card").html());
+        $("#second-last-card").html($("#last-card").html());
+        $("#last-card").html($("#new-card").html());
+        $("#third-last-card").show();
+        $("#new-card").hide();
+      });
+    });
+  }
+
+  updateLastThreeCards(msg: any) {
+    $("#last-card").html(this.convertCardToHtml(msg.history[0]));
+    $("#second-last-card").html(this.convertCardToHtml(msg.history[1]));
+    $("#third-last-card").html(this.convertCardToHtml(msg.history[2]));
   }
 
   convertCardToHtml(card: any) {
+    if (card === null) {
+      return "";
+    }
+
     let suit: string = "Unknown";
     let value: string = "Unkown";
     let span: string = "";
