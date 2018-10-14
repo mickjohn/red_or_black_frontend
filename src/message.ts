@@ -31,11 +31,3 @@ export class Login {
     return { "Login": { "username": this.username }};
   }
 }
-
-export class RequestHistory {
-  constructor() { }
-
-  toJSON() {
-    return { "RequestHistory": { "_dummy_key": 0}};
-  }
-}
