@@ -1,5 +1,5 @@
 import * as $ from 'jquery';
-import { Guess, Login, RequestHistory } from './message';
+import { Guess, Login } from './message';
 
 export class MessageHandler {
   username: string;
