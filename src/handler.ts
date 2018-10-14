@@ -18,6 +18,8 @@ export class MessageHandler {
   guess_result: JQuery<HTMLElement>;
   last_cards: JQuery<HTMLElement>;
 
+  allow_guess: boolean;
+
   constructor(username: string, connection: WebSocket) {
     this.username = username;
     this.connection = connection;
@@ -37,21 +39,29 @@ export class MessageHandler {
     this.your_go = $("#your-go");
     this.last_cards = $("#last-three-cards");
 
+    this.allow_guess = true;
+
     // Setup red/black click handlers
-    $("#red-button").click(function(){
-      $(this).removeClass("red-button");
-      $(this).addClass("red-button-clicked");
-      $("#black-button").fadeOut( "slow", function() {
-        connection.send(JSON.stringify(Guess.red())); 
-      });
+    this.red_button.click(() => {
+      if (this.allow_guess) {
+        this.allow_guess = false;
+        this.red_button.removeClass("red-button");
+        this.red_button.addClass("red-button-clicked");
+        this.black_button.fadeOut( "slow", function() {
+          connection.send(JSON.stringify(Guess.red())); 
+        });
+      }
     });
 
-    $("#black-button").click(function(){
-      $(this).removeClass("black-button");
-      $(this).addClass("black-button-clicked");
-      $("#red-button").fadeOut( "slow", function() {
-        connection.send(JSON.stringify(Guess.black())); 
-      });
+    this.black_button.click(() => {
+      if (this.allow_guess) {
+        this.allow_guess = false;
+        this.black_button.removeClass("black-button");
+        this.black_button.addClass("black-button-clicked");
+        this.red_button.fadeOut( "slow", function() {
+          connection.send(JSON.stringify(Guess.black())); 
+        });
+      }
     });
   }
 
@@ -134,6 +144,7 @@ export class MessageHandler {
     $("#your-go").slideDown("slow", "swing");
     // Vibrate the device once the player can guess again
     window.navigator.vibrate([100, 50, 100]);
+    this.allow_guess = true;
   }
 
   reset_buttons() {
