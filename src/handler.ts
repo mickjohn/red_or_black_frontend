@@ -18,6 +18,7 @@ export class MessageHandler {
   guess_result: JQuery<HTMLElement>;
   last_cards: JQuery<HTMLElement>;
   game_history: JQuery<HTMLElement>;
+  cards_left: JQuery<HTMLElement>;
 
   allow_guess: boolean;
   turn_number: number;
@@ -41,6 +42,7 @@ export class MessageHandler {
     this.your_go = $("#your-go");
     this.last_cards = $("#last-three-cards");
     this.game_history = $("#history-list");
+    this.cards_left = $("#cards-left");
 
     this.allow_guess = true;
     this.turn_number = 0;
@@ -98,6 +100,9 @@ export class MessageHandler {
         break;
       case "GameHistory":
         this.setGameHistory(msg);
+        break;
+      case "CardsLeft":
+        this.updateCardsLeft(msg);
         break;
       default:
         console.log("Don't understand message...");
@@ -279,6 +284,10 @@ export class MessageHandler {
 
     let listItem = `<li> <b>${this.turn_number}</b> ${msg.username} guessed ${guess} and got a ${card} ${outcome} ${penalty} </li>`;
     this.game_history.prepend(listItem);
+  }
+
+  updateCardsLeft(msg: any) {
+    this.cards_left.html(`${msg.cards_left}/52`);
   }
 
   convertCardToHtml(card: any) {
