@@ -17,8 +17,10 @@ export class MessageHandler {
   the_card: JQuery<HTMLElement>;
   guess_result: JQuery<HTMLElement>;
   last_cards: JQuery<HTMLElement>;
+  game_history: JQuery<HTMLElement>;
 
   allow_guess: boolean;
+  turn_number: number;
 
   constructor(username: string, connection: WebSocket) {
     this.username = username;
@@ -38,8 +40,10 @@ export class MessageHandler {
     this.the_card = $("#the-card");
     this.your_go = $("#your-go");
     this.last_cards = $("#last-three-cards");
+    this.game_history = $("#history-list");
 
     this.allow_guess = true;
+    this.turn_number = 0;
 
     // Setup red/black click handlers
     this.red_button.click(() => {
@@ -91,6 +95,9 @@ export class MessageHandler {
         break;
       case "RequestHistory":
         this.updateLastThreeCards(msg);
+        break;
+      case "GameHistory":
+        this.setGameHistory(msg);
         break;
       default:
         console.log("Don't understand message...");
@@ -160,16 +167,17 @@ export class MessageHandler {
     console.log(msg);
     if ( msg.username === this.username ) {
       console.log("It's this players go!");
-      this.players_go.html("<b>your</b>!");
+      this.players_go.html("<b>your</b>");
       this.waitForButtonsToShow();
     } else {
       console.log("It's " + msg.username + "'s go");
-      this.players_go.html(msg.username);
+      this.players_go.html(msg.username + "'s");
     }
   }
 
   handleGuessResult(msg: any) {
     let card_html: string = this.convertCardToHtml(msg.card);
+    this.turn_number += 1;
 
     // Push onto the last cards list
     this.pushNewCard(msg.card);
@@ -202,6 +210,9 @@ export class MessageHandler {
 
       });
     }
+
+    // Update the history
+    this.updateGameHistory(msg);
   }
 
   // This might be a good place to use the snackbar?
@@ -230,6 +241,44 @@ export class MessageHandler {
     $("#last-card").html(this.convertCardToHtml(msg.history[0]));
     $("#second-last-card").html(this.convertCardToHtml(msg.history[1]));
     $("#third-last-card").html(this.convertCardToHtml(msg.history[2]));
+  }
+
+  setGameHistory(msg: any) {
+    let historyItems = msg.history;
+
+    let guess: string;
+    for (let item of historyItems) {
+      this.turn_number = parseInt(item.turn_number, 10);
+      let msg = {
+        correct: item.outcome,
+        card: item.card,
+        guess: item.guess,
+        penalty: item.penalty,
+        username: item.username,
+      };
+      this.updateGameHistory(msg);
+    }
+  }
+
+  updateGameHistory(msg: any) {
+    let outcome = msg.correct ? "&#x1F389;&#x1F389;" : "&#x1F44E;";
+    let card = this.convertCardToHtml(msg.card);
+    let guess: string;
+    if (msg.guess === "Red") {
+      guess = '<b><span class="red-text"> red </span></b>';
+    } else {
+      guess = '<b><span class="black-text"> black </span></b>';
+    }
+
+    let penalty: string;
+    if ( msg.correct ) {
+      penalty = `penalty gone up to ${msg.penalty}s <span class="green-text">&#x2191;&#x2191;</span>`;
+    } else {
+      penalty =  `drink for ${msg.penalty}s &#x1F37A;`;
+    }
+
+    let listItem = `<li> <b>${this.turn_number}</b> ${msg.username} guessed ${guess} and got a ${card} ${outcome} ${penalty} </li>`;
+    this.game_history.prepend(listItem);
   }
 
   convertCardToHtml(card: any) {

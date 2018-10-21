@@ -53,6 +53,19 @@ $(document).ready(function(){
     var username: string = $("#username").val().toString();
     startWebsocketConnection(username);
   });
+
+  $("#show-history").click( function() {
+    $("#myModal").show();
+  });
+
+  // Get the modal
+  var modal = document.getElementById('myModal');
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  } 
+
 });
 
 function startWebsocketConnection(username: string) {

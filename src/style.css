@@ -46,10 +46,6 @@ hmtl,body {
   font-size: 16px;
 }
 
-.red-text {
-  color: #d22e2e;
-}
-
 #header-div {
   background-color: #e5e5e5;
   padding: 15px;
@@ -60,8 +56,22 @@ hmtl,body {
   padding: 5px;
 }
 
+#players-list {
+  text-align: center;
+  list-style: none;
+  padding: 0;
+}
+
 .black-text {
   color: black;
+}
+
+.red-text {
+  color: #d22e2e;
+}
+
+.green-text {
+  color: green;
 }
 
 .game-button {
@@ -161,4 +171,20 @@ hmtl,body {
 
 #outcome {
   text-align: center;
+}
+
+#history-list {
+  overflow: hidden;
+  overflow-y: scroll;
+  height: 140px;
+  list-style: none;
+  padding: 15px;
+  text-align: center;
+  font-size: 18px;
+  border: 1px #b7b7b7 solid;
+}
+
+#history-list li {
+  border-bottom: 1px #b7b7b7 solid;
+  padding: 7px;
 }
