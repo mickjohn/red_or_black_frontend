@@ -5,7 +5,11 @@ import { MessageHandler } from './handler';
 var username_field = $("username");
 var current_hostname: string = window.location.hostname;
 var websocket_url: string = "ws://" + current_hostname + ":8000";
-// var websocket_url: string = "ws://127.0.0.1:8000";
+if ( current_hostname === "games.mickjohn.com" ) {
+  websocket_url = "wss://" + current_hostname + ":8010";
+} else {
+  websocket_url = "ws://" + current_hostname + ":9000";
+}
 
 function validate(username: string) : boolean {
   if ( username.length > 39 ) {
@@ -18,19 +22,6 @@ function validateAndConnect() {
   var username: string = username_field.val().toString();
   validate(username);
 }
-
-
-function showSnackbar() {
-  var className: string = "show";
-  console.log("About to bring up snackbar");
-
-  // Get the snackbar DIV
-  var snackbar: JQuery<HTMLElement> = $("#snackbar");
-  snackbar.addClass(className);
-
-  // After 3 seconds, remove the show class from DIV
-  setTimeout(function(){ snackbar.removeClass(className);}, 3000);
-} 
 
 $(document).ready(function(){
   $("username-submit").click(function() {
