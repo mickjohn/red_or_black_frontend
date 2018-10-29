@@ -1,0 +1,15 @@
+{
+  "name": "red_or_black_frontend",
+  "description": "Frontend for red or black game server",
+  "version": "0.0.1",
+  "repository": "https://github.com/mickjohn/red_or_black_frontend.git",
+  "dependencies": {
+    "@types/jquery": "^3.3.22",
+    "browserify": "^16.2.3",
+    "gulp": "^3.9.1",
+    "jquery": "^3.3.1",
+    "tsify": "^4.0.0",
+    "typescript": "^3.1.3",
+    "vinyl-source-stream": "^2.0.0"
+  }
+}
