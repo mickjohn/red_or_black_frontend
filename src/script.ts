@@ -28,14 +28,6 @@ $(document).ready(function(){
     validateAndConnect();
   });
 
-  $("#snack-button").click(function(){
-    showSnackbar();
-  });
-
-  $("#snackbar").click( function() {
-    $(this).removeClass("show");
-  });
-
   $("#game-div").hide();
   $("#outcome").hide();
   $("#your-go").hide();
@@ -62,14 +54,13 @@ $(document).ready(function(){
 function startWebsocketConnection(username: string) {
   console.log("About to create websocket connection...");
   var connection: WebSocket = new WebSocket(websocket_url);
-  var username: string = "";
+  var username: string;
   var handler: MessageHandler;
 
   connection.onopen = function(event) {
     console.log("Connection opened, sending username to server...");
     username = $("#username").val().toString();
 
-    //TODO messy... reassigning the handler after initialising it above :(
     handler = new MessageHandler(username, connection);
     connection.send(JSON.stringify(new Login(username))); 
     $("#login-div").hide();
@@ -80,10 +71,8 @@ function startWebsocketConnection(username: string) {
     handler.handle(received_msg);
   };
 
-}
-
-function writeToLogBox(msg: string) {
-  var logbox = $("#logbox");
-  logbox.scrollTop(logbox[0].scrollHeight);
-  logbox.val(logbox.val() + msg + "\n");
+  connection.onclose = function(event) {
+    $('#game-div').hide();
+    $('#login-div').show();
+  }
 }
