@@ -15,91 +15,32 @@ import {
   RecievableMessage
 } from './recievable_message';
 
-export function convertCardToHtml(card: any) {
+export function convertCardToHtml(card: Card) {
   if (card === null) {
     return "";
   }
 
-  let suit: string = "Unknown";
-  let value: string = "Unkown";
-  let span: string = "";
-
+  let card_text: string = card.prettyPrint();
+  let span: string = "black-text";
 
   switch (card.suit) {
     case "Club":
-      suit = "♣";
       span = "black-text";
       break;
     case "Spade":
-      suit = "♠";
       span = "black-text";
       break;
     case "Heart":
-      suit = "♥";
       span = "red-text";
       break;
     case "Diamond":
       span = "red-text";
-      suit = "♦";
       break;
   }
-
-  switch (card.value) {
-    case "Ace":
-      value = "A";
-      break;
-    case "Two":
-      value = "2";
-      break;
-    case "Three":
-      value = "3";
-      break;
-    case "Four":
-      value = "4";
-      break;
-    case "Five":
-      value = "5";
-      break;
-    case "Six":
-      value = "6";
-      break;
-    case "Seven":
-      value = "7";
-      break;
-    case "Eight":
-      value = "8";
-      break;
-    case "Nine":
-      value = "9";
-      break;
-    case "Ten":
-      value = "10";
-      break;
-    case "Jack":
-      value = "J";
-      break;
-    case "Queen":
-      value = "Q";
-      break;
-    case "King":
-      value = "K";
-      break;
-  }
-
-  return "<span class=\"" + span + "\">" + suit + value + "</span>"
+  return `<span class="${span}">${card_text}</span>`
 }
 
-export function deserializeMessage(msg: any) {
-  switch (msg.msg_type) {
-    case "Turn":
-      return new Turn(msg.username);
-      break;
-    default:
-      return new Turn("");
-  }
-}
-
-export function ParseRecievableMessage(msg: any) {
+export function parseRecievableMessage(msg: any) {
   switch (msg.msg_type) {
     case "LoggedIn":
       return new LoggedIn();
@@ -108,7 +49,11 @@ export function ParseRecievableMessage(msg: any) {
       return new Error(msg.error);
       break;
     case "Players":
-      return new Players(msg.players);
+      let usernames: string[] = [];
+      for (var player of msg.players) {
+        usernames.push(player.username);
+      }
+      return new Players(usernames);
       break;
     case "Turn":
       return new Turn(msg.username);
@@ -129,14 +74,16 @@ export function ParseRecievableMessage(msg: any) {
       return new Penalty(msg.penalty);
       break;
     case "RequestHistory":
-      let cards: [Card];
+      let cards: Card[] = [];
       for(let card_msg of msg.history) {
-        cards.push(new Card(card_msg.value, card_msg.suit));
+        if (card_msg !== null ) {
+          cards.push(new Card(card_msg.value, card_msg.suit));
+        }
       }
       return new RequestHistory(cards);
       break;
     case "GameHistory":
-      let history: [HistoryItem];
+      let history: HistoryItem[] = [];
       for(let history_msg of msg.history) {
         history.push(new HistoryItem (
           history_msg.username,
@@ -151,6 +98,9 @@ export function ParseRecievableMessage(msg: any) {
       break;
     case "CardsLeft":
       return new CardsLeft(msg.cards_left);
+      break;
+    default:
+      console.error("Could not deserialise object: " + msg);
       break;
   }
 }

@@ -17,6 +17,10 @@ import { HistoryItem } from './history_item';
 
 export class LoggedIn {
   kind: "logged_in";
+
+  constructor() {
+    this.kind = "logged_in";
+  }
 }
 
 export class Error {
@@ -25,15 +29,17 @@ export class Error {
 
   constructor(error: string) {
     this.error = error;
+    this.kind = "error";
   }
 }
 
 export class  Players {
-  usernames: [string];
+  usernames: string[];
   kind: "players";
 
-  constructor(usernames: [string]) {
+  constructor(usernames: string[]) {
     this.usernames = usernames;
+    this.kind = "players";
   }
 }
 
@@ -43,6 +49,7 @@ export class Turn {
 
   constructor(username: string) {
     this.username = username;
+    this.kind = "turn";
   }
 }
 
@@ -66,6 +73,7 @@ export class GuessResult {
     this.penalty = penalty;
     this.username = username;
     this.guess = guess;
+    this.kind = "guess_result";
   }
 }
 
@@ -75,6 +83,7 @@ export class Penalty {
 
   constructor(penalty: number) {
     this.penalty = penalty;
+    this.kind = "penalty";
   }
 }
 
@@ -84,6 +93,7 @@ export class PlayerHasLeft {
 
   constructor(username: string) {
     this.username = username;
+    this.kind = "player_has_left";
   }
 }
 
@@ -93,24 +103,27 @@ export class CardsLeft {
 
   constructor(cards_left: number) {
     this.cards_left = cards_left;
+    this.kind = "cards_left";
   }
 }
 
 export class GameHistory {
   kind: "game_history";
-  history: [HistoryItem];
+  history: HistoryItem[];
 
-  constructor(history: [HistoryItem]) {
+  constructor(history: HistoryItem[]) {
     this.history = history;
+    this.kind = "game_history";
   }
 }
 
 export class RequestHistory {
   kind: "request_history";
-  history: [Card];
+  history: Card[];
 
-  constructor(history: [Card]) {
+  constructor(history: Card[]) {
     this.history = history;
+    this.kind = "request_history";
   }
 }
 
@@ -120,6 +133,7 @@ export type RecievableMessage = LoggedIn
   | Turn
   | GuessResult
   | PlayerHasLeft
+  | Penalty
   | CardsLeft
   | GameHistory
   | RequestHistory;

@@ -1,14 +1,20 @@
 import * as $ from 'jquery';
 import { Guess, Login } from './message';
-import { convertCardToHtml } from './utils';
-import { Turn, Players, RecievableMessage } from './recievable_message';
-
-function Test1(m: RecievableMessage) {
-  switch (m.kind) {
-    case "turn": return 1;
-    case "players": return 2;
-  }
-}
+import { convertCardToHtml, parseRecievableMessage } from './utils';
+import { Card } from './card';
+import {
+  LoggedIn,
+  Error,
+  Players,
+  Penalty,
+  Turn,
+  GuessResult,
+  PlayerHasLeft,
+  CardsLeft,
+  GameHistory,
+  RequestHistory,
+  RecievableMessage
+} from './recievable_message';
 
 export class MessageHandler {
   username: string;
@@ -81,56 +87,59 @@ export class MessageHandler {
   }
 
   handle(msg: any) {
-    switch(msg.msg_type) {
-      case "LoggedIn":
-        this.loggedIn(msg);
+    let message: RecievableMessage = parseRecievableMessage(msg);
+    switch (message.kind) {
+      case "logged_in":
+        console.log("message is logged in");
+        this.loggedIn(message);
         break;
-      case "Error": 
-        this.error(msg);
+      case "error":
+        this.error(message);
         break;
-      case "Players":
-        this.players(msg);
+      case "players":
+        this.players(message);
         break;
-      case "Turn":
-        this.turn(msg);
+      case "turn":
+        this.turn(message);
         break;
-      case "GuessResult":
-        this.handleGuessResult(msg);
+      case "guess_result":
+        this.handleGuessResult(message);
         break;
-      case "PlayerHasLeft":
-        this.playerLeft(msg);
+      case "player_has_left":
+        this.playerLeft(message);
         break;
-      case "Penalty":
-        this.drinking_seconds.html(msg.penalty.toString());
+      case "penalty":
+        this.drinking_seconds.html(message.penalty.toString());
         break;
-      case "RequestHistory":
-        this.updateLastThreeCards(msg);
+      case "request_history":
+        this.updateLastThreeCards(message);
         break;
-      case "GameHistory":
-        this.setGameHistory(msg);
+      case "game_history":
+        this.setGameHistory(message);
         break;
-      case "CardsLeft":
-        this.updateCardsLeft(msg);
+      case "cards_left":
+        this.updateCardsLeft(message);
         break;
       default:
         console.log("Don't understand message...");
-        console.log(msg);
+        console.log(message);
         break;
     }
   }
 
-  loggedIn(msg: any) {
+  loggedIn(msg: LoggedIn) {
+    console.log("Showing game");
     this.game.show();
   }
 
-  error(msg: any) {
+  error(msg: Error) {
     console.log("Error: " + msg.error);
   }
 
-  players(msg: any) {
+  players(msg: Players) {
     this.player_list.empty();
-    for (let player of msg.players) {
-      this.player_list.append("<li>" + player.username + "</li>");
+    for (let player of msg.usernames) {
+      this.player_list.append(`<li>${player}</li>`);
     }
   }
 
@@ -172,7 +181,7 @@ export class MessageHandler {
     $("#black-button").show();
   }
 
-  turn(msg: any) {
+  turn(msg: Turn) {
     if ( msg.username === this.username ) {
       this.players_go.html("<b>your</b>");
       this.waitForButtonsToShow();
@@ -181,7 +190,7 @@ export class MessageHandler {
     }
   }
 
-  handleGuessResult(msg: any) {
+  handleGuessResult(msg: GuessResult) {
     let card_html: string = convertCardToHtml(msg.card);
     this.turn_number += 1;
 
@@ -195,7 +204,7 @@ export class MessageHandler {
       if ( msg.correct ) {
         this.guess_result.html("👏 Correct 👏");
       } else {
-        this.guess_result.html("&#x1f62c; Wrong!! Drink for " + msg.penalty + " seconds")
+        this.guess_result.html(`&#x1f62c; Wrong!! Drink for ${msg.penalty} seconds`)
       }
     }
 
@@ -220,13 +229,13 @@ export class MessageHandler {
   }
 
   // This might be a good place to use the snackbar?
-  playerLeft(msg: any) {}
+  playerLeft(msg: PlayerHasLeft) {}
 
   /*
    * push last card onto the list of last cards
    * fade out the oldest, and fade in the new one
    */
-  pushNewCard(card: any) {
+  pushNewCard(card: Card) {
     $("#new-card").hide();
     $("#new-card").html(convertCardToHtml(card));
 
@@ -241,51 +250,51 @@ export class MessageHandler {
     });
   }
 
-  updateLastThreeCards(msg: any) {
+  updateLastThreeCards(msg: RequestHistory) {
     $("#last-card").html(convertCardToHtml(msg.history[0]));
     $("#second-last-card").html(convertCardToHtml(msg.history[1]));
     $("#third-last-card").html(convertCardToHtml(msg.history[2]));
   }
 
-  setGameHistory(msg: any) {
+  setGameHistory(msg: GameHistory) {
     let historyItems = msg.history;
 
     let guess: string;
     for (let item of historyItems) {
-      this.turn_number = parseInt(item.turn_number, 10);
-      let msg = {
-        correct: item.outcome,
-        card: item.card,
-        guess: item.guess,
-        penalty: item.penalty,
-        username: item.username,
-      };
+      this.turn_number = item.turn_number;
+      let msg = new GuessResult(
+        item.outcome,
+        item.card,
+        item.penalty,
+        item.username,
+        item.guess,
+      );
       this.updateGameHistory(msg);
     }
   }
 
-  updateGameHistory(msg: any) {
-    let outcome = msg.correct ? "&#x1F389;&#x1F389;" : "&#x1F44E;";
-    let card = convertCardToHtml(msg.card);
+  updateGameHistory(guess_result: GuessResult) {
+    let outcome = guess_result.correct ? "&#x1F389;&#x1F389;" : "&#x1F44E;";
+    let card = convertCardToHtml(guess_result.card);
     let guess: string;
-    if (msg.guess === "Red") {
+    if (guess_result.guess.card_colour === "Red") {
       guess = '<b><span class="red-text"> red </span></b>';
     } else {
       guess = '<b><span class="black-text"> black </span></b>';
     }
 
     let penalty: string;
-    if ( msg.correct ) {
-      penalty = `penalty gone up to ${msg.penalty}s <span class="green-text">&#x2191;&#x2191;</span>`;
+    if ( guess_result.correct ) {
+      penalty = `penalty gone up to ${guess_result.penalty}s <span class="green-text">&#x2191;&#x2191;</span>`;
     } else {
-      penalty =  `drink for ${msg.penalty}s &#x1F37A;`;
+      penalty =  `drink for ${guess_result.penalty}s &#x1F37A;`;
     }
 
-    let listItem = `<li> <b>${this.turn_number}</b> ${msg.username} guessed ${guess} and got a ${card} ${outcome} ${penalty} </li>`;
+    let listItem = `<li> <b>${this.turn_number}</b> ${guess_result.username} guessed ${guess} and got a ${card} ${outcome} ${penalty} </li>`;
     this.game_history.prepend(listItem);
   }
 
-  updateCardsLeft(msg: any) {
+  updateCardsLeft(msg: CardsLeft) {
     this.cards_left.html(`${msg.cards_left}/52`);
   }
 }
