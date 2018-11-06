@@ -1,8 +1,8 @@
 
 hmtl,body {
   font-family: "Helvetica", "Arial", sans-serif;
-  color: #555;
-  background-color: #372a3b;
+  color: silver;
+  background-color: #48374d;
 }
 
 ::-webkit-input-placeholder { /* Edge */
@@ -18,7 +18,6 @@ hmtl,body {
 }
 
 #footer {
-  background-color: #e5e5e5;
   text-align: center;
   padding: 10px;
   margin-top: 7px;
@@ -33,7 +32,6 @@ hmtl,body {
   width: 50%;
   margin-top: 10%;
   padding: 10px; 
-  background-color: #372a3b;
 }
 
 #login-div input {
@@ -42,24 +40,27 @@ hmtl,body {
 }
 
 #username {
-  background-color: #372a3b;
+  background-color: #48374d;
   width: 100%;
-  border: 1px solid red;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid silver;
   margin: 0;
   padding: 0;
   text-indent: 5px;
+  color: silver;
 }
 
 #login {
-  color: white;
-  background-color: #813131;
-  border: 1px solid #813131;
+  color: silver;
+  background-color: #48374d;
+  border: 1px solid silver;
   border-radius: 0;
   font-size: 16px;
 }
 
 #header-div {
-  background-color: #e5e5e5;
   padding: 15px;
   text-align: center;
 }
@@ -89,13 +90,12 @@ hmtl,body {
 .game-button {
   font-size: 22px;
   border-style: solid;
-  border-radius: 4px;
   padding: 5px;
   margin: 5px;
 }
 
 .red-button {
-  background-color: #d2d2d2; /* same as body */
+  background-color: #48374d; /* Same as body */
   color: #d22e2e;
   border-color: #d22e2e;
 }
@@ -107,7 +107,7 @@ hmtl,body {
 }
 
 .black-button {
-  background-color: #d2d2d2; /* same as body */
+  background-color: #48374d; /* Same as body */
   color: black;
   border-color: black;
 }
@@ -144,7 +144,6 @@ hmtl,body {
 }
 
 .menu a {
-  background-color:#e5e5e5;
   padding:8px;
   margin-top:7px;
   display:block;
@@ -158,7 +157,6 @@ hmtl,body {
   text-align: center;
 }
 .right {
-  background-color:#e5e5e5;
   float:left;
   width:20%;
   padding:15px;
