@@ -72,6 +72,13 @@ function startWebsocketConnection(username: string) {
   };
 
   connection.onclose = function(event) {
+    console.log("Lost websocket connection");
+    $('#game-div').hide();
+    $('#login-div').show();
+  }
+
+  connection.onerror = function(event) {
+    console.log("websocket error!");
     $('#game-div').hide();
     $('#login-div').show();
   }
