@@ -133,7 +133,7 @@ export class MessageHandler {
   }
 
   error(msg: Error) {
-    console.log("Error: " + msg.error);
+    console.log(`Error: ${msg.error}`);
   }
 
   players(msg: Players) {
@@ -186,7 +186,7 @@ export class MessageHandler {
       this.players_go.html("<b>your</b>");
       this.waitForButtonsToShow();
     } else {
-      this.players_go.html(msg.username + "'s");
+      this.players_go.html(`${msg.username}'s`);
     }
   }
 
