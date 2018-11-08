@@ -251,9 +251,12 @@ export class MessageHandler {
   }
 
   updateLastThreeCards(msg: RequestHistory) {
-    $("#last-card").html(convertCardToHtml(msg.history[0]));
-    $("#second-last-card").html(convertCardToHtml(msg.history[1]));
-    $("#third-last-card").html(convertCardToHtml(msg.history[2]));
+    let ids: string[] = [ "last-card", "second-last-card", "third-last-card",];
+    ids.forEach((id, index) => {
+      if (msg.history[index] !== undefined && msg.history[index] !== null) {
+        $(`#${id}`).html(convertCardToHtml(msg.history[index]));
+      }
+    });
   }
 
   setGameHistory(msg: GameHistory) {
