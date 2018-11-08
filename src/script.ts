@@ -18,28 +18,15 @@ function validate(username: string) : boolean {
   return true;
 }
 
-function validateAndConnect() {
-  var username: string = username_field.val().toString();
-  validate(username);
-}
-
 $(document).ready(function(){
-  $("username-submit").click(function() {
-    validateAndConnect();
-  });
-
   $("#game-div").hide();
   $("#outcome").hide();
   $("#your-go").hide();
 
   $("#login").click( function() {
     $(this).prop('disabled', true);
-    var username: string = $("#username").val().toString();
+    var username: string = $('#username').val().toString();
     startWebsocketConnection(username);
-  });
-
-  $("#show-history").click( function() {
-    $("#myModal").show();
   });
 });
 
@@ -47,9 +34,9 @@ $(document).ready(function(){
 // i.e. game is hidden and login box is
 // showing
 function resetGameUi() {
-    $('#game-div').hide();
-    $('#login-div').show();
-    $('#login').prop('disabled', false);
+  $('#game-div').hide();
+  $('#login-div').show();
+  $('#login').prop('disabled', false);
 }
 
 function startWebsocketConnection(username: string) {

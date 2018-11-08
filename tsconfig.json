@@ -3,7 +3,12 @@
     "script.ts"
   ],
   "compilerOptions": {
+    "target": "es5",
     "noImplicitAny": true,
-    "target": "es5"
+    "noImplicitThis": true,
+    "noImplicitReturns": true,
+    "alwaysStrict": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true
   }
 }
