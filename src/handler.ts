@@ -277,23 +277,18 @@ export class MessageHandler {
   }
 
   updateGameHistory(guess_result: GuessResult) {
-    let outcome = guess_result.correct ? "&#x1F389;&#x1F389;" : "&#x1F44E;";
-    let card = convertCardToHtml(guess_result.card);
-    let guess: string;
-    if (guess_result.guess.card_colour === "Red") {
-      guess = '<b><span class="red-text"> red </span></b>';
-    } else {
-      guess = '<b><span class="black-text"> black </span></b>';
-    }
-
+    // let outcome = guess_result.correct ? "&#x2714;" : "&#x2718;";
+    let outcome: string;
     let penalty: string;
     if ( guess_result.correct ) {
-      penalty = `penalty gone up to ${guess_result.penalty}s <span class="green-text">&#x2191;&#x2191;</span>`;
+      penalty = '';
+      outcome = '<span class="green-text">&#x2714</span>'
     } else {
-      penalty =  `drink for ${guess_result.penalty}s &#x1F37A;`;
+      penalty = `&#x1F37A; -> ${guess_result.penalty}s`;
+      outcome = '<span class="red-text">&#x2718</span>'
     }
 
-    let listItem = `<li> <b>${this.turn_number}</b> ${guess_result.username} guessed ${guess} and got a ${card} ${outcome} ${penalty} </li>`;
+    let listItem = `<li> <b>${this.turn_number}</b> ${guess_result.username} ${outcome} ${penalty} </li>`;
     this.game_history.prepend(listItem);
   }
 

@@ -19,10 +19,6 @@ function validate(username: string) : boolean {
 }
 
 $(document).ready(function(){
-  $("#game-div").hide();
-  $("#outcome").hide();
-  $("#your-go").hide();
-
   $("#login").click( function() {
     $(this).prop('disabled', true);
     var username: string = $('#username').val().toString();

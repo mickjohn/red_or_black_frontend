@@ -70,6 +70,10 @@ hmtl,body {
   text-align: center;
 }
 
+#game-div {
+  display: none;
+}
+
 #buttons-div button {
   padding: 5px;
 }
@@ -181,10 +185,12 @@ hmtl,body {
 }
 
 #your-go {
+  display: none;
   margin: auto;
 }
 
 #outcome {
+  display: none;
   text-align: center;
 }
 
