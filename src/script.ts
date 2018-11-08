@@ -6,9 +6,9 @@ var username_field = $("username");
 var current_hostname: string = window.location.hostname;
 var websocket_url: string;
 if ( current_hostname === "games.mickjohn.com" ) {
-  websocket_url = `wss://${current_hostname}:8010`";
+  websocket_url = `wss://${current_hostname}:8010`;
 } else {
-  websocket_url = `ws://${current_hostname}:9000`";
+  websocket_url = `ws://${current_hostname}:9000`;
 }
 
 function validate(username: string) : boolean {
