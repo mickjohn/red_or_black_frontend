@@ -60,6 +60,11 @@ hmtl,body {
   font-size: 16px;
 }
 
+#login:active {
+  color: #48374d;
+  background-color: silver;
+}
+
 #header-div {
   padding: 15px;
   text-align: center;
