@@ -100,8 +100,8 @@ export function parseRecievableMessage(msg: any) {
       return new CardsLeft(msg.cards_left);
       break;
     default:
-      return new Error("Could not deserialise object: " + msg);
       console.error("Could not deserialise object: " + msg);
+      return new Error("Could not deserialise object: " + msg);
       break;
   }
 }
