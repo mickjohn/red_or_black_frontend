@@ -23,6 +23,22 @@ hmtl,body {
   margin-top: 7px;
 }
 
+#footer a:link, a:visited {
+  border: 1px solid silver;
+  border-radius: 0;
+  background-color: #48374d;
+  color: silver;
+  padding: 5px 18px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+#footer a:hover, a:active {
+  color: #48374d;
+  background-color: silver;
+}
+
 #main-div {
   overflow: auto;
 }
