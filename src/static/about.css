@@ -1,0 +1,17 @@
+
+hmtl,body {
+  font-family: "Helvetica", "Arial", sans-serif;
+  color: silver;
+  background-color: #48374d;
+}
+
+a:link, a:visited {
+  background-color: #48374d;
+  color: silver;
+  display: inline-block;
+}
+
+a:hover, a:active {
+  color: #48374d;
+  background-color: silver;
+}
