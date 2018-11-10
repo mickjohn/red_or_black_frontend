@@ -49,11 +49,7 @@ export function parseRecievableMessage(msg: any) {
       return new Error(msg.error);
       break;
     case "Players":
-      let usernames: string[] = [];
-      for (var player of msg.players) {
-        usernames.push(player.username);
-      }
-      return new Players(usernames);
+      return new Players(msg.players);
       break;
     case "Turn":
       return new Turn(msg.username);
