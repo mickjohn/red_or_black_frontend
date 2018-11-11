@@ -33,6 +33,8 @@ function resetGameUi() {
   $('#game-div').hide();
   $('#login-div').show();
   $('#login').prop('disabled', false);
+  $('#last-three-cards').html('');
+  $('#history-list').html('');
 }
 
 function startWebsocketConnection(username: string) {
