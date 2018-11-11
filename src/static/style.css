@@ -225,3 +225,17 @@ hmtl,body {
   border-bottom: 1px #b7b7b7 solid;
   padding: 7px;
 }
+
+#leave-button {
+  color: silver;
+  width: 100%;
+  border: 1px silver solid;
+  border-radius: 0;
+  background-color: #48374d;
+  font-size: 16px;
+}
+
+#leave-button:active {
+  color: #48374d;
+  background-color: silver;
+}

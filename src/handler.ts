@@ -34,6 +34,7 @@ export class MessageHandler {
   last_cards: JQuery<HTMLElement>;
   game_history: JQuery<HTMLElement>;
   cards_left: JQuery<HTMLElement>;
+  leave_button: JQuery<HTMLElement>;
 
   allow_guess: boolean;
   turn_number: number;
@@ -58,6 +59,7 @@ export class MessageHandler {
     this.last_cards = $("#last-three-cards");
     this.game_history = $("#history-list");
     this.cards_left = $("#cards-left");
+    this.leave_button = $("#leave-button");
 
     this.allow_guess = true;
     this.turn_number = 0;
@@ -83,6 +85,10 @@ export class MessageHandler {
           connection.send(JSON.stringify(Guess.black())); 
         });
       }
+    });
+
+    this.leave_button.click(() => {
+      this.connection.close(1000, `${this.username} is leaving`);
     });
   }
 
