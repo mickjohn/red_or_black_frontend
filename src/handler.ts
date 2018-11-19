@@ -290,7 +290,7 @@ export class MessageHandler {
       penalty = '';
       outcome = '<span class="green-text">&#x2714</span>'
     } else {
-      penalty = `&#x1F37A; -> ${guess_result.penalty}s`;
+      penalty = `&#x1F37A; &#x2192; ${guess_result.penalty}s`;
       outcome = '<span class="red-text">&#x2718</span>'
     }
 
